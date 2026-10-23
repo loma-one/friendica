@@ -3,7 +3,7 @@
   * SPDX-FileCopyrightText: 2010-2026 the Friendica project
   *
   * SPDX-License-Identifier: AGPL-3.0-or-later
-  *}}
+*}}
 
 <style>
 	.expandable-textarea {
@@ -318,13 +318,14 @@
 		sizeExpandableTextareas();
 	}
 
-	window.wideToggleBound = window.wideToggleBound || false;
+	window.wideEditorToggleBtn = null;
 
 	window.onDocumentReady("body", function() {
 		var toggleBtn = document.getElementById('wide-editor-toggle');
-		if (toggleBtn && !window.wideToggleBound) {
-			window.wideToggleBound = true;
+		// In SPA mode the button is re-created on navigation, rebind when the element changes
+		if (toggleBtn && toggleBtn !== window.wideEditorToggleBtn) {
 			toggleBtn.addEventListener('click', toggleWideEditor);
+			window.wideEditorToggleBtn = toggleBtn;
 		}
 	});
 
@@ -355,12 +356,13 @@
 		$('#permissions-modal-{{$id}}').modal('show');
 	}
 
-	window.permissionsToggleBound = window.permissionsToggleBound || false;
+	window.permissionsToggleBtn = null;
 
 	window.onDocumentReady("body", function() {
-		if (!window.permissionsToggleBound) {
-			window.permissionsToggleBound = true;
-			document.getElementById('toggle-permissions').addEventListener('click', togglePermissions);
+		var permissionsBtn = document.getElementById('toggle-permissions');
+		if (permissionsBtn !== window.permissionsToggleBtn) {
+			permissionsBtn.addEventListener('click', togglePermissions);
+			window.permissionsToggleBtn = permissionsBtn;
 		}
 	});
 
